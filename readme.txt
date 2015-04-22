@@ -25,6 +25,12 @@ Load one Theme for a specific user. You must set the theme from User Profile the
 = Usage =
 Use your plugin from the `User Profile` page;
 
+== Frequently Asked Questions ==
+
+= Does it work with child themes? =
+
+No, so far this plugin does not support child themes.
+
 == Screenshots ==
 
 none
