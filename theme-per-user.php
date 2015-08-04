@@ -9,6 +9,7 @@
  */
 
 define('THEME_PER_USER_OPTION', 'theme_per_user');
+
 //------------------------------------------------------------------------------
 function theme_per_user_custom_theme_template( $template = '' ) {
   if ( isset( $_COOKIE[ THEME_PER_USER_OPTION ] ) ) {
@@ -39,7 +40,6 @@ function theme_per_user_change_theme() {
 }
 
 add_action('plugins_loaded', 'theme_per_user_change_theme');
-
 
 //------------------------------------------------------------------------------
 //
@@ -79,8 +79,9 @@ function theme_per_user_extra_profile_fields( $user ) {
         <option value="-1">Default theme</option>
         <?php foreach ( $all_themes as $theme ) : ?>
         <?php $selected = ''; if ( $theme->get_stylesheet() == $user_theme ) { $selected = ' selected="selected"'; } ?>
-  <option <?php print $selected; ?>value="<?php echo esc_attr(base64_encode( serialize( array('template' => $theme->Template , 'stylesheet' => $theme->get_stylesheet()))))?>"><?php print $theme->Name 
-          . " (" . $theme->Template . ")"; ?></option>
+        <option <?php print $selected; ?> value="<?php echo esc_attr(base64_encode( 
+            serialize( array('template' => $theme->Template , 'stylesheet' => $theme->get_stylesheet() ) ) 
+        ) )?>"><?php print $theme->Name . ' (' . $theme->Template . ')'; ?></option>
         <?php endforeach; ?>
       </select>
       <span class="description">Select the theme you want to be associated with your user.</span>
