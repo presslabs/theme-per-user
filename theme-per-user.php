@@ -13,7 +13,7 @@ define('THEME_PER_USER_OPTION', 'theme_per_user');
 //------------------------------------------------------------------------------
 function theme_per_user_custom_theme_template( $template = '' ) {
   if ( isset( $_COOKIE[ THEME_PER_USER_OPTION ] ) ) {
-    $template_data = unserialize( base64_decode( $_COOKIE[ THEME_PER_USER_OPTION ] ) );
+    $template_data = unserialize( base64_decode( urldecode( $_COOKIE[ THEME_PER_USER_OPTION ] ) ) );
     $template = $template_data['template'];
   }
   return $template;
@@ -21,7 +21,7 @@ function theme_per_user_custom_theme_template( $template = '' ) {
 
 function theme_per_user_custom_theme_style( $stylesheet = '' ) {
   if ( isset( $_COOKIE[ THEME_PER_USER_OPTION ] ) ) {
-    $stylesheet_data = unserialize( base64_decode( $_COOKIE[ THEME_PER_USER_OPTION ] ) );
+    $stylesheet_data = unserialize( base64_decode( urldecode( $_COOKIE[ THEME_PER_USER_OPTION ] ) ) );
     $stylesheet = $stylesheet_data['stylesheet'];
   }
   return $stylesheet;
@@ -60,12 +60,14 @@ add_action('set_auth_cookie', 'theme_per_user_set_cookie', 10, 5);
 // This will show below the color scheme and above username field
 //
 function theme_per_user_extra_profile_fields( $user ) {
-  $user_theme_data = unserialize( base64_decode( get_user_meta( $user->ID, THEME_PER_USER_OPTION, true ) ) );
+  $user_theme_data = unserialize( base64_decode( urldecode( get_user_meta( $user->ID, THEME_PER_USER_OPTION, true ) ) ) );
   $user_theme = $user_theme_data['stylesheet'];
+  $user_theme_name = $user_theme_data['name'];
 
   if ( '' == $user_theme ) {
     $current_theme = wp_get_theme(); // get the current theme
-    $user_theme = $current_theme->get_stylesheet();
+    $user_theme_stylesheet = $current_theme->get_stylesheet();
+    $user_theme_name = $current_theme->Name;
   }
 ?>
   <h3>Theme per user</h3>
@@ -78,10 +80,10 @@ function theme_per_user_extra_profile_fields( $user ) {
       <select id="<?php print THEME_PER_USER_OPTION; ?>" name="<?php print THEME_PER_USER_OPTION; ?>">
         <option value="-1">Default theme</option>
         <?php foreach ( $all_themes as $theme ) : ?>
-        <?php $selected = ''; if ( $theme->get_stylesheet() == $user_theme ) { $selected = ' selected="selected"'; } ?>
-        <option <?php print $selected; ?> value="<?php echo esc_attr(base64_encode( 
-            serialize( array('template' => $theme->Template , 'stylesheet' => $theme->get_stylesheet() ) ) 
-        ) )?>"><?php print $theme->Name . ' (' . $theme->Template . ')'; ?></option>
+        <?php $selected = ''; if ( $theme->get_stylesheet() == $user_theme and $theme->Name == $user_theme_name ) { $selected = ' selected="selected"'; } ?>
+        <option <?php print $selected; ?> value="<?php echo urlencode( base64_encode( 
+            serialize( array('template' => $theme->Template , 'stylesheet' => $theme->get_stylesheet(), 'name' => $theme->Name ) ) 
+        ))?>"><?php print $theme->Name . ' (' . $theme->Template . ')'; ?></option>
         <?php endforeach; ?>
       </select>
       <span class="description">Select the theme you want to be associated with your user.</span>
@@ -101,12 +103,10 @@ function theme_per_user_save_extra_profile_fields( $user_id ) {
   if ( ! current_user_can( 'edit_user', $user_id ) ) return false;
 
   $current_theme = wp_get_theme(); // get the current theme
-  $current_theme = $current_theme->Template;
+  $current_theme = $current_theme->get_stylesheet();
   $post_value = $_POST[ THEME_PER_USER_OPTION ];
-  $set_theme_data =  unserialize( base64_decode( $post_value ) );
-  error_log( 'post_unserialized: '.$set_theme_data);
-  $set_theme = $set_theme_data['template'];
-  error_log( 'post_set_theme: '.$set_theme);
+  $set_theme_data =  unserialize( base64_decode( urldecode( $post_value ) ) );
+  $set_theme = $set_theme_data['stylesheet'];
   if ($set_theme  != $current_theme )
     update_user_meta( $user_id, THEME_PER_USER_OPTION, $_POST[ THEME_PER_USER_OPTION ] );
 
@@ -122,13 +122,19 @@ add_action('edit_user_profile_update', 'theme_per_user_save_extra_profile_fields
 //
 function theme_per_user_theme_activation_function() {
   $user_id = get_current_user_id();
-  $user_theme_data = unserialize( base64_decode( get_user_meta( $user_id, THEME_PER_USER_OPTION, true ) ));
+  $user_theme_data = unserialize( base64_decode( urldecode( get_user_meta( $user_id, THEME_PER_USER_OPTION, true ) ) ) );
   $user_theme = $user_theme_data['template'];
 
   if ( '' == $user_theme ) {
     $theme = wp_get_theme(); // get the current theme
-    $value = base64_encode( serialize( array('template' => $theme->Template , 'stylesheet' => $theme->get_stylesheet()))); 
+    $value = urlencode( base64_encode( serialize( array('template' => $theme->Template , 'stylesheet' => $theme->get_stylesheet(), 'name' => $theme->Name)))); 
     update_user_meta( $user_id, THEME_PER_USER_OPTION, $value );
   }
 }
 add_action('after_switch_theme', 'theme_per_user_theme_activation_function');
+
+/* Cookie content serialized and encoded:
+ *    array(  'template' => $theme->Template,
+ *            'stylesheet' => $theme->get_stylesheet()
+ *            )
+ */
