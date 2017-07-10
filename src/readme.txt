@@ -38,6 +38,9 @@ none
 
 == Changelog ==
 
+= 1.0.1 =
+Updated folder structure
+
 = 1.0 =
 Start version on WP.
 
