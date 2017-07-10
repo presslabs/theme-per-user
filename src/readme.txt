@@ -13,6 +13,8 @@ Load one Theme for a specific user. You must set the theme from User Profile the
 
 Load one Theme for a specific user. You must set the theme from User Profile then logout and login again in order to take effect.
 
+= Github repository =
+https://github.com/presslabs/theme-per-user
 
 == Installation ==
 
@@ -35,6 +37,9 @@ No, so far this plugin does not support child themes.
 none
 
 == Changelog ==
+
+= 1.0.1 =
+Updated folder structure
 
 = 1.0 =
 Start version on WP.
