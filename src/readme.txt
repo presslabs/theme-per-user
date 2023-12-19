@@ -1,9 +1,10 @@
 === Theme per user ===
-Contributors: PressLabs, olarmarius
-Donate link: http://www.presslabs.com/
+Contributors: Presslabs, olarmarius
+Donate link: https://www.presslabs.com/
 Tags: themes, theme, user, theme per user, redirect, presslabs 
 Requires at least: 3.8.1
-Tested up to: 4.5.1
+Tested up to: 6.4
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +38,11 @@ No, so far this plugin does not support child themes.
 none
 
 == Changelog ==
+
+= 1.0.2 =
+
+Release date: December 19, 2023
+* Fix: A possible PHP Object Injection vulnerability has been fixed.
 
 = 1.0.1 =
 Updated folder structure
