@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Theme per user
  * Description: Load one Theme for a specific user. You must set the theme from `User Profile` then logout and login again in order to take effect.
- * Version:     1.0.2
+ * Version:     1.0.3
  * Author:      Presslabs
  * Author URI:  https://www.presslabs.com/
  * License:     GPLv3
