@@ -1,10 +1,10 @@
 === Theme per user ===
 Contributors: Presslabs, olarmarius
 Donate link: https://www.presslabs.com/
-Tags: themes, theme, user, theme per user, redirect, presslabs 
+Tags: themes, user, theme per user, redirect, presslabs 
 Requires at least: 3.8.1
-Tested up to: 6.4
-Stable tag: 1.0.2
+Tested up to: 6.8
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,10 @@ No, so far this plugin does not support child themes.
 none
 
 == Changelog ==
+
+= 1.0.3 =
+
+* Tested up to WP 6.8.
 
 = 1.0.2 =
 
