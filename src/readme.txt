@@ -3,8 +3,8 @@ Contributors: Presslabs, olarmarius
 Donate link: https://www.presslabs.com/
 Tags: themes, user, theme per user, redirect, presslabs 
 Requires at least: 3.8.1
-Tested up to: 7.0
-Stable tag: 1.0.5
+Tested up to: 7.1
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,10 @@ No, so far this plugin does not support child themes.
 none
 
 == Changelog ==
+
+= 1.0.6 =
+
+* Tested up to WP 7.1.
 
 = 1.0.5 =
 
